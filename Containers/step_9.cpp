@@ -22,8 +22,7 @@ string derivative(string line) {
     RemoveSpaces(line);
 
     if (line.empty()) {
-        cout << "";
-        return 0;
+        return "";
     }
 
     map <pair<int, string>, int> polynomial;
@@ -87,40 +86,7 @@ string derivative(string line) {
         polynomial[{degree, variable}] += coefficient;
     }
 
-//    while (getline(sin, box, '+')) {
-//        bool wasMulti = isalpha(box.front());
-//        bool wasDegree = false;
-//
-//        int coefficient = 0;
-//        string variable;
-//        int degree = 0;
-//
-//        for (auto& i : box) {
-//            if (i == '*') {
-//                wasMulti = true;
-//            } else if (i == '^') {
-//                wasDegree = true;
-//            } else if (!wasMulti) {
-//                coefficient *= 10;
-//                coefficient += i - '0';
-//            } else if (wasMulti && !wasDegree) {
-//                variable += i;
-//            } else {
-//                degree *= 10;
-//                degree += i - '0';
-//            }
-//        }
-//        if (coefficient == 0) {
-//            coefficient = 1;
-//        }
-//        if (degree == 0) {
-//            degree = 1;
-//        }
-//        if (!variable.empty()) {
-//            polynomial[{degree, variable}] += coefficient;
-//        }
-//    }
-
+    ostringstream sout;
     for (auto rit = polynomial.rbegin(); rit != polynomial.rend(); ++rit) {
         const auto& i = *rit;
         degree = i.first.first;
@@ -132,34 +98,31 @@ string derivative(string line) {
         }
 
         if (rit != polynomial.rbegin() && coefficient > 0) {
-            cout << "+";
+            sout << "+";
         }
 
         if (degree == 0) {
-            cout << coefficient;
+            sout << coefficient;
         } else {
             if (coefficient != 1 && coefficient != -1) {
-                cout << coefficient << "*";
+                sout << coefficient << "*";
             } else if (coefficient == -1) {
-                cout << "-";
+                sout << "-";
             }
-            cout << variable;
+            sout << variable;
             if (degree != 1) {
-                cout << "^" << degree;
+                sout << "^" << degree;
             }
         }
     }
+    return sout.str();
 }
-
-
-
-
-
 
 
 int main() {
     string line;
     getline(cin, line);
+    cout << derivative(line);
 
 
     return 0;
